@@ -26,7 +26,7 @@ namespace DesignPatterns_Singleton_ThreadSafe_
         public void AddOneToCounter()
         {
             var state = _counter;
-            Thread.Sleep(6000);
+            Thread.Sleep(1000);
             _counter = state + 1;
         }
 

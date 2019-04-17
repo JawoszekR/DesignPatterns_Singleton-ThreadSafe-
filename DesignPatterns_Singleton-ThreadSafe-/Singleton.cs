@@ -9,6 +9,8 @@ namespace DesignPatterns_Singleton_ThreadSafe_
     {
         private static Singleton _instance;
         private int _counter;
+        private static object obj = new object();
+        private static object obj2 = new object();
         private Singleton()
         {
             _counter = 0;
@@ -16,18 +18,25 @@ namespace DesignPatterns_Singleton_ThreadSafe_
 
         public static Singleton GetInstance()
         {
-            if(_instance == null)
+            lock (obj)
             {
-                _instance = new Singleton();
+                if (_instance == null)
+                {
+                    _instance = new Singleton();
+                }
+                return _instance;
             }
-            return _instance;
+
         }
 
         public void AddOneToCounter()
         {
-            var state = _counter;
-            Thread.Sleep(1000);
-            _counter = state + 1;
+            lock (obj2)
+            {
+                var state = _counter;
+                Thread.Sleep(1000);
+                _counter = state + 1;
+            }
         }
 
         public int GetCounter()
